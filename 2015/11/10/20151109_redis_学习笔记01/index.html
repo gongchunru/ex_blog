@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="安装redis 我知道，类似这样的教程，网上会有一大堆，有比我的好的，我没有别的目的，只是希望自己能够对之前做过的事情，有个记录。即便忘记了，我也会来看看自己写的这些东西来看看自己哪方面理解的不对。纸上得来终觉浅，绝知此事要躬行。">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis学习笔记01">
+<meta property="og:url" content="http://yoursite.com/2015/11/10/20151109_redis_学习笔记01/index.html">
+<meta property="og:site_name" content="龚春如">
+<meta property="og:description" content="安装redis 我知道，类似这样的教程，网上会有一大堆，有比我的好的，我没有别的目的，只是希望自己能够对之前做过的事情，有个记录。即便忘记了，我也会来看看自己写的这些东西来看看自己哪方面理解的不对。纸上得来终觉浅，绝知此事要躬行。">
+<meta property="og:updated_time" content="2016-08-13T04:36:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis学习笔记01">
+<meta name="twitter:description" content="安装redis 我知道，类似这样的教程，网上会有一大堆，有比我的好的，我没有别的目的，只是希望自己能够对之前做过的事情，有个记录。即便忘记了，我也会来看看自己写的这些东西来看看自己哪方面理解的不对。纸上得来终觉浅，绝知此事要躬行。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/11/10/20151109_redis_学习笔记01/"/>
+
+
+
+
+
+  <title> redis学习笔记01 | 龚春如 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e3a7174ec189ee6a5716952478d556c2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">龚春如</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">分享、坚持</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/10/20151109_redis_学习笔记01/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="helloCode">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/assets/blogImg/item.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="龚春如">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="龚春如" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis学习笔记01
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-10T08:07:53+08:00">
+                2015-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/11/10/20151109_redis_学习笔记01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/10/20151109_redis_学习笔记01/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><blockquote>
+<p>我知道，类似这样的教程，网上会有一大堆，有比我的好的，我没有别的目的，只是希望自己能够对之前做过的事情，有个记录。即便忘记了，我也会来看看自己写的这些东西来看看自己哪方面理解的不对。<em>纸上得来终觉浅，绝知此事要躬行。</em> </p>
+</blockquote>
+<a id="more"></a>
+<h3 id="解压、make"><a href="#解压、make" class="headerlink" title="解压、make"></a>解压、<code>make</code></h3><p>进入redis的根目录使用如下命令</p>
+<pre><code>make
+</code></pre><h3 id="centos6-5镜像安装gcc"><a href="#centos6-5镜像安装gcc" class="headerlink" title="centos6.5镜像安装gcc"></a>centos6.5镜像安装gcc</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ihv kernel-headers\*</span></div><div class="line">warning: kernel-headers-2.6.32-431.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package kernel-headers-2.6.32-431.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ihv glibc-headers\*</span></div><div class="line">warning: glibc-headers-2.12-1.132.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package glibc-headers-2.12-1.132.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ihv glibc-devel\*</span></div><div class="line">warning: glibc-devel-2.12-1.132.el6.i686.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	libBrokenLocale.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libanl.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libcidn.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libcrypt.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libdl.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libm.so.6 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnsl.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_compat.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_dns.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_files.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_hesiod.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_nis.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_nisplus.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libresolv.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	librt.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libthread_db.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libutil.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ihv glibc-devel-2.12-1.132.el6.i686.rpm </span></div><div class="line">warning: glibc-devel-2.12-1.132.el6.i686.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	libBrokenLocale.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libanl.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libcidn.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libcrypt.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libdl.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libm.so.6 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnsl.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_compat.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_dns.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_files.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_hesiod.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_nis.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_nisplus.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libresolv.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	librt.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libthread_db.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libutil.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ihv glibc-devel-\*</span></div><div class="line">warning: glibc-devel-2.12-1.132.el6.i686.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	libBrokenLocale.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libanl.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libcidn.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libcrypt.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libdl.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libm.so.6 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnsl.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_compat.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_dns.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_files.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_hesiod.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_nis.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libnss_nisplus.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libresolv.so.2 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	librt.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libthread_db.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">	libutil.so.1 is needed by glibc-devel-2.12-1.132.el6.i686</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-4.4.7-4.el6.x86\_64.rpm</span></div><div class="line">warning: gcc-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	cloog-ppl &gt;= 0.15 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">	cpp = 4.4.7-4.el6 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-4.4.7-4.el6.x86\_64.rpm</span></div><div class="line">warning: gcc-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	cloog-ppl &gt;= 0.15 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">	cpp = 4.4.7-4.el6 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc- </span></div><div class="line">error: open of gcc- failed: 没有那个文件或目录</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-</span></div><div class="line">error: open of gcc- failed: 没有那个文件或目录</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-\*</span></div><div class="line">warning: gcc-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	cloog-ppl &gt;= 0.15 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">	cpp = 4.4.7-4.el6 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">	libmpfr.so.1()(64bit) is needed by gcc-c++-4.4.7-4.el6.x86_64</div><div class="line">	libstdc++-devel = 4.4.7-4.el6 is needed by gcc-c++-4.4.7-4.el6.x86_64</div><div class="line">	libgfortran = 4.4.7-4.el6 is needed by gcc-gfortran-4.4.7-4.el6.x86_64</div><div class="line">	libgfortran.so.3()(64bit) is needed by gcc-gfortran-4.4.7-4.el6.x86_64</div><div class="line">	libmpfr.so.1()(64bit) is needed by gcc-gfortran-4.4.7-4.el6.x86_64</div><div class="line">	libgnat = 4.4.7-4.el6 is needed by gcc-gnat-4.4.7-4.el6.x86_64</div><div class="line">	libgnat-devel = 4.4.7-4.el6 is needed by gcc-gnat-4.4.7-4.el6.x86_64</div><div class="line">	libmpfr.so.1()(64bit) is needed by gcc-gnat-4.4.7-4.el6.x86_64</div><div class="line">	/usr/share/java/eclipse-ecj.jar is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libgcj = 4.4.7-4.el6 is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libgcj-devel = 4.4.7-4.el6 is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libgcj-tools.so.10()(64bit) is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libgcj.so.10()(64bit) is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libgcj_bc.so.1()(64bit) is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libgij.so.10()(64bit) is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libmpfr.so.1()(64bit) is needed by gcc-java-4.4.7-4.el6.x86_64</div><div class="line">	libmpfr.so.1()(64bit) is needed by gcc-objc-4.4.7-4.el6.x86_64</div><div class="line">	libobjc = 4.4.7-4.el6 is needed by gcc-objc-4.4.7-4.el6.x86_64</div><div class="line">	libobjc.so.2()(64bit) is needed by gcc-objc-4.4.7-4.el6.x86_64</div><div class="line">	libmpfr.so.1()(64bit) is needed by gcc-objc++-4.4.7-4.el6.x86_64</div><div class="line">[root@localhost Packages]<span class="comment">#  rpm -ivh gcc-4.4.7-4.el6.x86\_64.rpm </span></div><div class="line">warning: gcc-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	cloog-ppl &gt;= 0.15 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">	cpp = 4.4.7-4.el6 is needed by gcc-4.4.7-4.el6.x86_64</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh kernel-headers-2.6.32-431.el6.x86\_64.rpm</span></div><div class="line">warning: kernel-headers-2.6.32-431.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package kernel-headers-2.6.32-431.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-</span></div><div class="line">error: open of glibc- failed: 没有那个文件或目录</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-\*</span></div><div class="line">warning: glibc-2.12-1.132.el6.i686.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">error: Failed dependencies:</div><div class="line">	libfreebl3.so is needed by glibc-2.12-1.132.el6.i686</div><div class="line">	libfreebl3.so(NSSRAWHASH_3.12.3) is needed by glibc-2.12-1.132.el6.i686</div><div class="line">	libgd.so.2()(64bit) is needed by glibc-utils-2.12-1.132.el6.x86_64</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-headers-2.12-1.132.el6.x86\_64.rpm</span></div><div class="line">warning: glibc-headers-2.12-1.132.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package glibc-headers-2.12-1.132.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-devel-2.12-1.132.el6.x86\_64.rpm</span></div><div class="line">warning: glibc-devel-2.12-1.132.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package glibc-devel-2.12-1.132.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh libgomp-4.4.7-4.el6.x86\_64.rpm</span></div><div class="line">warning: libgomp-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package libgomp-4.4.7-4.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh ppl-0.10.2-11.el6.x86\_64.rpm</span></div><div class="line">warning: ppl-0.10.2-11.el6.x86\_64.rpm: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">   1:ppl                    <span class="comment">########################################### [100%]</span></div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh cloog-ppl-0.15.7-1.2.el6.x86\_64.rpm</span></div><div class="line">warning: cloog-ppl-0.15.7-1.2.el6.x86\_64.rpm: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">   1:cloog-ppl              <span class="comment">########################################### [100%]</span></div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh mpfr-2.4.1-6.el6.x86\_64.rpm</span></div><div class="line">warning: mpfr-2.4.1-6.el6.x86\_64.rpm: Header V3 RSA/SHA256 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">   1:mpfr                   <span class="comment">########################################### [100%]</span></div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh cpp-4.4.7-4.el6.x86\_64.rpm</span></div><div class="line">warning: cpp-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">   1:cpp                    <span class="comment">########################################### [100%]</span></div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-4.4.7-4.el6.x86\_64.rpm</span></div><div class="line">warning: gcc-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">   1:gcc                    <span class="comment">########################################### [100%]</span></div><div class="line">[root@localhost Packages]<span class="comment"># </span></div><div class="line"></div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh cpp-4.4.7-4.el6.x86\_64.rpm </span></div><div class="line">warning: cpp-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package cpp-4.4.7-4.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh kernel-headers-2.6.32-431.el6.x86\_64.rpm </span></div><div class="line">warning: kernel-headers-2.6.32-431.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package kernel-headers-2.6.32-431.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-headers-2.12-1.132.el6.x86\_64.rpm </span></div><div class="line">warning: glibc-headers-2.12-1.132.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package glibc-headers-2.12-1.132.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-devel-2.12-1.132.el6.</span></div><div class="line">glibc-devel-2.12-1.132.el6.i686.rpm    glibc-devel-2.12-1.132.el6.x86\_64.rpm  </div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-devel-2.12-1.132.el6.</span></div><div class="line">glibc-devel-2.12-1.132.el6.i686.rpm    glibc-devel-2.12-1.132.el6.x86\_64.rpm  </div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh glibc-devel-2.12-1.132.el6.x86\_64.rpm </span></div><div class="line">warning: glibc-devel-2.12-1.132.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package glibc-devel-2.12-1.132.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh libgomp-4.4.7-4.el6.</span></div><div class="line">libgomp-4.4.7-4.el6.i686.rpm    libgomp-4.4.7-4.el6.x86\_64.rpm  </div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh libgomp-4.4.7-4.el6.x86\_64.rpm </span></div><div class="line">warning: libgomp-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package libgomp-4.4.7-4.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-</span></div><div class="line">gcc-4.4.7-4.el6.x86\_64.rpm           gcc-gfortran-4.4.7-4.el6.x86\_64.rpm  gcc-java-4.4.7-4.el6.x86\_64.rpm      gcc-objc++-4.4.7-4.el6.x86\_64.rpm</div><div class="line">gcc-c++-4.4.7-4.el6.x86\_64.rpm       gcc-gnat-4.4.7-4.el6.x86\_64.rpm      gcc-objc-4.4.7-4.el6.x86\_64.rpm  </div><div class="line">[root@localhost Packages]<span class="comment"># rpm -ivh gcc-4.4.7-4.el6.x86\_64.rpm </span></div><div class="line">warning: gcc-4.4.7-4.el6.x86\_64.rpm: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY</div><div class="line">Preparing...                <span class="comment">########################################### [100%]</span></div><div class="line">	package gcc-4.4.7-4.el6.x86_64 is already installed</div><div class="line">[root@localhost Packages]<span class="comment"># gcc -v</span></div><div class="line">使用内建 specs。</div><div class="line">目标：x86\_64-redhat-linux</div><div class="line">配置为：../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=http://bugzilla.redhat.com/bugzilla --enable-bootstrap --enable-shared --enable-threads=posix --enable-checking=release --with-system-zlib --enable-\_\_cxa\_atexit --disable-libunwind-exceptions --enable-gnu-unique-object --enable-languages=c,c++,objc,obj-c++,java,fortran,ada --enable-java-awt=gtk --disable-dssi --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-1.5.0.0/jre --enable-libgcj-multifile --enable-java-maintainer-mode --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --disable-libjava-multilib --with-ppl --with-cloog --with-tune=generic --with-arch\_32=i686 --build=x86\_64-redhat-linux</div><div class="line">线程模型：posix</div><div class="line">gcc 版本 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC)</div></pre></td></tr></table></figure>
+<h3 id="尝试make"><a href="#尝试make" class="headerlink" title="尝试make"></a>尝试make</h3><pre><code>make
+</code></pre><p>会发现接着报错，这是因为之前make的时候报的错，还存在， 这时候就需要：</p>
+<pre><code>make distclean
+</code></pre><p>然后执行：</p>
+<pre><code>make
+</code></pre><p>发现类似黑客的一系列代码之后就出现了:</p>
+<p><code>Hint: It&#39;s a good idea to run &#39;make test&#39; ;)</code><br>这时候我们的redis就已经安装成功了。</p>
+<p><em>至于这个<code>make test</code> 嘿嘿，我们之后还会研究。</em></p>
+<pre><code>make install
+</code></pre><p>安装成功后， 会在<code>/usr/local/bin</code>下面出现一堆文件：<code>redis-server,redis-cli</code>等</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/blogImg/wechat.jpg" alt="helloCode WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/blogImg/alipay.jpg" alt="helloCode Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/public/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/06/ss-vps/" rel="next" title="VPS搭建ss服务">
+                <i class="fa fa-chevron-left"></i> VPS搭建ss服务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/06/20151106_Intellij_安装/" rel="prev" title="IntelliJ IDEA的安装">
+                IntelliJ IDEA的安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/10/20151109_redis_学习笔记01/"
+           data-title="redis学习笔记01" data-url="http://yoursite.com/2015/11/10/20151109_redis_学习笔记01/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/blogImg/item.jpg"
+               alt="helloCode" />
+          <p class="site-author-name" itemprop="name">helloCode</p>
+          <p class="site-description motion-element" itemprop="description">希望自己可以静下来成长</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装redis"><span class="nav-number">1.</span> <span class="nav-text">安装redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解压、make"><span class="nav-number">1.1.</span> <span class="nav-text">解压、make</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#centos6-5镜像安装gcc"><span class="nav-number">1.2.</span> <span class="nav-text">centos6.5镜像安装gcc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尝试make"><span class="nav-number">1.3.</span> <span class="nav-text">尝试make</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">helloCode</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gongchunru"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
