@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Java," />
+  <meta name="keywords" content="Shadowsocks,VPS," />
 
 
 
@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="遇到的关于包装类比值的时候报错的一点了解。其实原理很明显，就是自动拆装箱的时候出现了问题。">
-<meta name="keywords" content="Java">
+<meta name="description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。  1. 安装Shadowsocks我这里用的是一键安装 :使用root用户登录，依次执行下面三条命令：1231 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadows">
+<meta name="keywords" content="Shadowsocks,VPS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java的自动拆装箱的记录">
-<meta property="og:url" content="http://yoursite.com/2016/04/19/Integer-Exception-Analyse/index.html">
+<meta property="og:title" content="Shadowsocks加速和踩坑">
+<meta property="og:url" content="http://yoursite.com/2017/04/23/20170424vps/index.html">
 <meta property="og:site_name" content="龚春如">
-<meta property="og:description" content="遇到的关于包装类比值的时候报错的一点了解。其实原理很明显，就是自动拆装箱的时候出现了问题。">
+<meta property="og:description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。  1. 安装Shadowsocks我这里用的是一键安装 :使用root用户登录，依次执行下面三条命令：1231 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadows">
 <meta property="og:updated_time" content="2017-04-23T16:40:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java的自动拆装箱的记录">
-<meta name="twitter:description" content="遇到的关于包装类比值的时候报错的一点了解。其实原理很明显，就是自动拆装箱的时候出现了问题。">
+<meta name="twitter:title" content="Shadowsocks加速和踩坑">
+<meta name="twitter:description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。  1. 安装Shadowsocks我这里用的是一键安装 :使用root用户登录，依次执行下面三条命令：1231 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadows">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/04/19/Integer-Exception-Analyse/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/23/20170424vps/"/>
 
 
 
 
 
-  <title> Java的自动拆装箱的记录 | 龚春如 </title>
+  <title> Shadowsocks加速和踩坑 | 龚春如 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -241,7 +241,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/19/Integer-Exception-Analyse/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/23/20170424vps/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="helloCode">
@@ -265,7 +265,7 @@
             
             
               
-                Java的自动拆装箱的记录
+                Shadowsocks加速和踩坑
               
             
           </h1>
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-19T22:18:56+08:00">
-                2016-04-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-23T23:51:30+08:00">
+                2017-04-23
               </time>
             
 
@@ -299,8 +299,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/04/19/Integer-Exception-Analyse/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/19/Integer-Exception-Analyse/" itemprop="commentCount"></span>
+                <a href="/2017/04/23/20170424vps/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/23/20170424vps/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -326,26 +326,25 @@
       
 
       
-        <p>遇到的关于包装类比值的时候报错的一点了解。其实原理很明显，就是自动拆装箱的时候出现了问题。</p>
-<a id="more"></a>
-<h3 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Integer i = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">if</span> (i==<span class="number">3</span>) &#123;</div><div class="line">			System.out.println(<span class="string">"true"</span>);</div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>结果：</p>
-<pre><code>Exception in thread &quot;main&quot; java.lang.NullPointerException
-at com.java.test.TestCom.main(TestCom.java:7)
-</code></pre><p>字节码分析如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class com.java.test.TestCom extends java.lang.Object&#123;</div><div class="line">public com.java.test.TestCom();</div><div class="line">  Code:</div><div class="line">   0:	aload_0</div><div class="line">   1:	invokespecial	#8; //Method java/lang/Object."&lt;init&gt;":()V</div><div class="line">   4:	return</div><div class="line"></div><div class="line">public static void main(java.lang.String[]);</div><div class="line">  Code:</div><div class="line">   0:	aconst_null    //将常量加载到操作数栈</div><div class="line">   1:	astore_1       //将栈顶引用型数值存入第二个本地变量</div><div class="line">   2:	aload_1        //将第二个引用类型本地变量推送至栈顶</div><div class="line">   3:	invokevirtual	#16; //Method java/lang/Integer.intValue:()I  //调用对象的实例方法，根据对象的实际类型进行分派(虚拟机分派)</div><div class="line">   6:	iconst_3</div><div class="line">   7:	if_icmpne	18      //控制转移指令  ： 条件分支</div><div class="line">   10:	getstatic	#22; //Field java/lang/System.out:Ljava/io/PrintStream;</div><div class="line">   13:	ldc	#28; //String true</div><div class="line">   15:	invokevirtual	#30; //Method java/io/PrintStream.println:(Ljava/lang/String;)V</div><div class="line">   18:	return</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		Integer i = <span class="keyword">new</span> Integer(<span class="keyword">null</span>);</div><div class="line">		<span class="keyword">if</span> (i==<span class="number">3</span>) &#123;</div><div class="line">			System.out.println(<span class="string">"true"</span>);</div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>报错信息：</p>
-<pre><code>Exception in thread &quot;main&quot; java.lang.NumberFormatException: null
-at java.lang.Integer.parseInt(Integer.java:454)
-at java.lang.Integer.&lt;init&gt;(Integer.java:677)
-at com.java.test.TestCom.main(TestCom.java:6)
-</code></pre><p>字节码分析如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public class com.java.test.TestCom extends java.lang.Object&#123;</div><div class="line">public com.java.test.TestCom();</div><div class="line">  Code:</div><div class="line">   0:	aload_0</div><div class="line">   1:	invokespecial	#8; //Method java/lang/Object."&lt;init&gt;":()V</div><div class="line">   4:	return</div><div class="line"></div><div class="line">public static void main(java.lang.String[]);</div><div class="line">  Code:</div><div class="line">   0:	new	#16; //class java/lang/Integer</div><div class="line">   3:	dup</div><div class="line">   4:	aconst_null</div><div class="line">   5:	invokespecial	#18; //Method java/lang/Integer."&lt;init&gt;":(Ljava/lang/String;)V</div><div class="line">   8:	astore_1</div><div class="line">   9:	aload_1</div><div class="line">   10:	invokevirtual	#21; //Method java/lang/Integer.intValue:()I</div><div class="line">   13:	iconst_3</div><div class="line">   14:	if_icmpne	25</div><div class="line">   17:	getstatic	#25; //Field java/lang/System.out:Ljava/io/PrintStream;</div><div class="line">   20:	ldc	#31; //String true</div><div class="line">   22:	invokevirtual	#33; //Method java/io/PrintStream.println:(Ljava/lang/String;)V</div><div class="line">   25:	return</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以明显的看出，不管是怎么样的类型，只要比较，它就会自动拆装箱，调用<code>intValue()</code>方法，出现了上面的报错信息（与比较的数值和引用的前后顺序无关：比如<code>i==3</code> 或者<code>3==i</code>）。</p>
-<h3 id="三、"><a href="#三、" class="headerlink" title="三、"></a>三、</h3><p>意外发现下面的代码报错，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> i ;</div><div class="line">		<span class="keyword">if</span> (<span class="number">3</span> == i) &#123;</div><div class="line">			System.out.println(<span class="string">"true"</span>);</div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>但是，下面就没有问题。<code>int</code>类型的值不是默认就是<code>0</code>吗？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">		<span class="keyword">if</span> (<span class="number">3</span> == i) &#123;</div><div class="line">			System.out.println(<span class="string">"true"</span>);</div><div class="line">		&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>首先介绍正确的安装流程：</p>
+<blockquote>
+<p>以下内容只针对centos7 ，其他未做实验，不保证可行。</p>
+</blockquote>
+<h2 id="1-安装Shadowsocks"><a href="#1-安装Shadowsocks" class="headerlink" title="1. 安装Shadowsocks"></a>1. 安装Shadowsocks</h2><p>我这里用的是<a href="https://teddysun.com/486.html" target="_blank" rel="external">一键安装</a> :<br>使用root用户登录，依次执行下面三条命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</div><div class="line">2 chmod +x shadowsocks-all.sh</div><div class="line">3 ./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</div></pre></td></tr></table></figure></p>
+<p>这里我用的是python版本，启动，停止，重启，查看状态对应的命令如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/shadowsocks-python start </div><div class="line">/etc/init.d/shadowsocks-python stop </div><div class="line">/etc/init.d/shadowsocks-python restart </div><div class="line">/etc/init.d/shadowsocks-python status</div></pre></td></tr></table></figure></p>
+<h2 id="2-安装bbr加速"><a href="#2-安装bbr加速" class="headerlink" title="2. 安装bbr加速"></a>2. 安装bbr加速</h2><p>使用root登录，依次执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</div><div class="line">chmod +x bbr.sh</div><div class="line">./bbr.sh</div></pre></td></tr></table></figure>
+<p>结束后会提示重启，输入<code>y</code> 重启操作系统。启动成功后，安装已经结束。<br>如需查看是否生效，请参考给出的参考链接里面去查看相关命令。</p>
+<h2 id="3-遇到的坑"><a href="#3-遇到的坑" class="headerlink" title="3. 遇到的坑"></a>3. 遇到的坑</h2><p>首先是执行bbr命令后，显示安装成功，重启后没有生效，然后查看内核版本，还是3.10 </p>
+<p>采取的措施如下：</p>
+<ol>
+<li>先升级内核： 内核可以安装成功，可是uname -r 显示还是旧的内核。</li>
+<li>重构内核配置文件，然后设置刚刚安装的内核为默认的内核，重启报错。</li>
+<li>尝试用Finnix ISO修复，未果。</li>
+<li>重新安装了系统，执行最上面的两步，解决了。</li>
+</ol>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>YouTube 1080P 毫无压力，刷Twitter ，Instagram 速度流畅，没有明显卡顿感。</p>
+<p>###参考<br>1, <a href="https://teddysun.com/489.html" target="_blank" rel="external">https://teddysun.com/489.html</a></p>
 
       
     </div>
@@ -390,7 +389,9 @@ at com.java.test.TestCom.main(TestCom.java:6)
       
         <div class="post-tags">
           
-            <a href="/public/tags/Java/" rel="tag"># Java</a>
+            <a href="/public/tags/Shadowsocks/" rel="tag"># Shadowsocks</a>
+          
+            <a href="/public/tags/VPS/" rel="tag"># VPS</a>
           
         </div>
       
@@ -399,18 +400,14 @@ at com.java.test.TestCom.main(TestCom.java:6)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/24/ss分享/" rel="next" title="shadowsocks免费使用分享">
-                <i class="fa fa-chevron-left"></i> shadowsocks免费使用分享
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/05/一点想法/" rel="prev" title="一点想法">
-                一点想法 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/07/designPattern-Strategy/" rel="prev" title="设计模式">
+                设计模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -437,8 +434,8 @@ at com.java.test.TestCom.main(TestCom.java:6)
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/19/Integer-Exception-Analyse/"
-           data-title="Java的自动拆装箱的记录" data-url="http://yoursite.com/2016/04/19/Integer-Exception-Analyse/">
+      <div class="ds-thread" data-thread-key="2017/04/23/20170424vps/"
+           data-title="Shadowsocks加速和踩坑" data-url="http://yoursite.com/2017/04/23/20170424vps/">
       </div>
     
   </div>
@@ -531,7 +528,7 @@ at com.java.test.TestCom.main(TestCom.java:6)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、"><span class="nav-number">1.</span> <span class="nav-text">一、</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、"><span class="nav-number">2.</span> <span class="nav-text">二、</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、"><span class="nav-number">3.</span> <span class="nav-text">三、</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装Shadowsocks"><span class="nav-number">1.</span> <span class="nav-text">1. 安装Shadowsocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装bbr加速"><span class="nav-number">2.</span> <span class="nav-text">2. 安装bbr加速</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-遇到的坑"><span class="nav-number">3.</span> <span class="nav-text">3. 遇到的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果"><span class="nav-number">4.</span> <span class="nav-text">效果</span></a></li></ol></div>
             
 
           </div>
