@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。  1. 安装Shadowsocks我这里用的是一键安装 :使用root用户登录，依次执行下面三条命令：1231 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadows">
+<meta name="description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。">
 <meta name="keywords" content="VPS,Shadowsocks">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shadowsocks加速和踩坑">
 <meta property="og:url" content="http://yoursite.com/2017/04/23/20170424vps/index.html">
 <meta property="og:site_name" content="龚春如">
-<meta property="og:description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。  1. 安装Shadowsocks我这里用的是一键安装 :使用root用户登录，依次执行下面三条命令：1231 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadows">
-<meta property="og:updated_time" content="2017-04-24T16:00:35.000Z">
+<meta property="og:description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。">
+<meta property="og:updated_time" content="2017-04-24T16:37:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shadowsocks加速和踩坑">
-<meta name="twitter:description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。  1. 安装Shadowsocks我这里用的是一键安装 :使用root用户登录，依次执行下面三条命令：1231 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadows">
+<meta name="twitter:description" content="首先介绍正确的安装流程：  以下内容只针对centos7 ，其他未做实验，不保证可行。">
 
 
 
@@ -306,7 +306,7 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-04-25T00:00:35+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2017-04-25T00:37:01+08:00">
                 2017-04-25
               </time>
             
@@ -352,10 +352,10 @@
 <blockquote>
 <p>以下内容只针对centos7 ，其他未做实验，不保证可行。</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="1-安装Shadowsocks"><a href="#1-安装Shadowsocks" class="headerlink" title="1. 安装Shadowsocks"></a>1. 安装Shadowsocks</h2><p>我这里用的是<a href="https://teddysun.com/486.html" target="_blank" rel="external">一键安装</a> :<br>使用root用户登录，依次执行下面三条命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</div><div class="line">2 chmod +x shadowsocks-all.sh</div><div class="line">3 ./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</div></pre></td></tr></table></figure></p>
 <p>这里我用的是python版本，启动，停止，重启，查看状态对应的命令如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/shadowsocks-python start </div><div class="line">/etc/init.d/shadowsocks-python stop </div><div class="line">/etc/init.d/shadowsocks-python restart </div><div class="line">/etc/init.d/shadowsocks-python status</div></pre></td></tr></table></figure></p>
-<h2 id="2-安装bbr加速"><a href="#2-安装bbr加速" class="headerlink" title="2. 安装bbr加速"></a>2. 安装bbr加速</h2><p>使用root登录，依次执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</div><div class="line">chmod +x bbr.sh</div><div class="line">./bbr.sh</div></pre></td></tr></table></figure>
+<h2 id="2-安装bbr加速"><a href="#2-安装bbr加速" class="headerlink" title="2. 安装bbr加速"></a>2. 安装<a href="https://www.zhihu.com/question/53559433/answer/135903103" target="_blank" rel="external">bbr</a>加速</h2><p>使用root登录，依次执行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</div><div class="line">chmod +x bbr.sh</div><div class="line">./bbr.sh</div></pre></td></tr></table></figure></p>
 <p>结束后会提示重启，输入<code>y</code> 重启操作系统。启动成功后，安装已经结束。<br>如需查看是否生效，请参考给出的参考链接里面去查看相关命令。</p>
 <h2 id="3-遇到的坑"><a href="#3-遇到的坑" class="headerlink" title="3. 遇到的坑"></a>3. 遇到的坑</h2><p>首先是执行bbr命令后，显示安装成功，重启后没有生效，然后查看内核版本，还是3.10 </p>
 <p>采取的措施如下：</p>
