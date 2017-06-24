@@ -13,8 +13,17 @@
 
 
 
+
+
+
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
 
 
 
@@ -65,7 +74,7 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="Hexo, NexT" />
@@ -77,7 +86,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -90,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/categories/index.html">
 <meta property="og:site_name" content="龚春如">
 <meta property="og:description" content="希望自己可以静下来成长">
-<meta property="og:updated_time" content="2017-04-24T16:40:53.000Z">
+<meta property="og:updated_time" content="2017-06-24T16:11:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分类">
 <meta name="twitter:description" content="希望自己可以静下来成长">
@@ -102,7 +111,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -127,18 +136,10 @@
 
 
 
-  <title>
+  <title>分类 | 龚春如</title>
   
 
-  
-    分类 | 龚春如
-  
-</title>
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
 
 
 
@@ -159,36 +160,44 @@
 
 
 
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">龚春如</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">龚春如</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">分享、坚持</p>
+      
   </div>
-    
-      <p class="site-subtitle">分享、坚持</p>
-    
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -209,7 +218,7 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -219,7 +228,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -249,7 +258,7 @@
   <div id="posts" class="posts-expand">
   <header class="post-header">
 
-	<h2 class="post-title" itemprop="name headline">分类</h2>
+	<h1 class="post-title" itemprop="name headline">分类</h1>
 
 
 
@@ -308,22 +317,26 @@
                src="/assets/blogImg/item.jpg"
                alt="helloCode" />
           <p class="site-author-name" itemprop="name">helloCode</p>
-          <p class="site-description motion-element" itemprop="description">希望自己可以静下来成长</p>
+           
+              <p class="site-description motion-element" itemprop="description">希望自己可以静下来成长</p>
+          
         </div>
         <nav class="site-state motion-element">
-        
+
           
             <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">19</span>
+              <a href="/archives/">
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
           
+            
+            
             <div class="site-state-item site-state-categories">
-              <a href="/categories">
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">分类</span>
               </a>
@@ -331,9 +344,11 @@
           
 
           
+            
+            
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -357,6 +372,8 @@
 
 
       </section>
+
+      
 
       
 
@@ -399,9 +416,13 @@
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
   </div>
 
   
@@ -421,6 +442,15 @@
 
 
   
+
+
+
+
+
+
+
+
+
 
 
 
@@ -446,21 +476,25 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
 
 
 
   
-  
-
   
 
   
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+  
+
+  
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
 
 
 
@@ -499,31 +533,16 @@
 
 
 
-  
-  
+
+
+
+
+
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
-  
+
+
 
 
   
@@ -532,6 +551,11 @@
 
   
 
+  
+
+  
+
+  
 
 </body>
 </html>
